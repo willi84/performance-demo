@@ -101,24 +101,24 @@ if (hasVersions(data)){
 }
 
 const regex = /(<script\ssrc.*<\/script>)/;
-const hrefs = /data\-anchor="#/ig
+// const hrefs = /data\-anchor="#/ig
 const styles = /(<link\srel="stylesheet"[^\>]*)/;
 const regexOptimized = /(<script\sid="optimized"\ssrc.*<\/script>)/;
 let m = data.match(regex);
 let allES5 = '';
 let allES6 = '';
 // console.log(data);
-if(hrefs){
-    const r = data.match(hrefs);
-    if(r){
-        console.log(r.length)
-        console.log(r)
-    } else {
-        console.log('no href')
-    }
-    data = data.replace(hrefs, 'href="#');
+// if(hrefs){
+//     const r = data.match(hrefs);
+//     if(r){
+//         console.log(r.length)
+//         console.log(r)
+//     } else {
+//         console.log('no href')
+//     }
+//     data = data.replace(hrefs, 'href="#');
     
-}
+// }
 if (styles){
     const style = data.match(styles);
     // <link rel="stylesheet" href="styles.315effb89cdf9675a6b4.css"

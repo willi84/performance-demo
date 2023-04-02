@@ -1,13 +1,16 @@
-import { Component, AfterViewInit, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, Output, EventEmitter, ElementRef, ViewChild, Inject } from '@angular/core';
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
+import { DOCUMENT } from '@angular/common';
+import { PageScrollService } from 'ngx-page-scroll-core';
 @Component({
   selector: 'app-top-navigation',
   templateUrl: './top-navigation.component.html',
   styleUrls: ['./top-navigation.component.scss']
 })
-export class TopNavigationComponent implements AfterViewInit {
+export class TopNavigationComponent {
   @Output() public sidenavToggle = new EventEmitter();
+  @ViewChild('htmlContainer') htmlContainer: ElementRef;
   baseroute: boolean;
   sizeLogo =  {width: '185px', height: '61px', scale: {d:'0.7',m: '0.6'} };
   route: string;
@@ -30,8 +33,9 @@ export class TopNavigationComponent implements AfterViewInit {
     // { name: 'BLOG', link: './blog'}
   ];
 
-  constructor(location: Location, router: Router, private elementRef: ElementRef) {
+  constructor(location: Location, router: Router, private elementRef: ElementRef, private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: any) {
     router.events.subscribe(val => {
+      // console.log(val);
       if (location.path() == "") {
         this.isHome = true;
         this.baseUrl = './';
@@ -44,21 +48,11 @@ export class TopNavigationComponent implements AfterViewInit {
   getLink(){
     return this.isHome === true ? '#home' : '/';
   }
-  
-
-  ngAfterViewInit(): void {
-    const anchors = this.elementRef.nativeElement.querySelectorAll('a');
-    anchors.forEach(element => {
-      const anchor = element.getAttribute('data-anchor');
-      if(anchor && anchor.indexOf('#') === 0){
-        element.setAttribute('href', anchor)
-        console.log(element.getAttribute('href'));
-      }
+  public scrollTo(id) {
+    console.log('scrollTo')
+    this.pageScrollService.scroll({
+      document: this.document,
+      scrollTarget: id,
     });
-    // if(anchor && anchor.getAttribute('data-anchor')){
-    //   anchor.setAttribute('href', this.anchor);
-    // }
   }
-  
-
 }
