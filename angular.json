@@ -29,6 +29,7 @@
             "assets": [
               "src/manifest",
               "src/favicon.ico",
+              "src/sw.js",
               "src/assets",
               "src/data"
             ],
@@ -95,6 +96,7 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
+              "src/sw.js",
               "src/assets",
               "src/data"
             ],

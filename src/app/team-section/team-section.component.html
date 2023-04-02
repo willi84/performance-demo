@@ -1,4 +1,5 @@
-<div  id="team" class="team-section">
+<div id="team" class="team-section">
+    <app-bg-image [image]="image"></app-bg-image>
     <div class="team-section__wrapper">
         <app-title [label]="title" type="dark"></app-title>
         <div class="team-list">
@@ -9,5 +10,4 @@
             </div>
         </div>
     </div>
-    <img class="team-section__image" alt="Photos of team section" src="{{image.src | responsive: 'xl'}}" >
 </div>

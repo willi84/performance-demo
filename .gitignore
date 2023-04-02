@@ -53,3 +53,4 @@ output
 
 # avoid checkin in generates js
 scully.ng-girls-page.config.js
+src/assets/scully-routes.json
