@@ -1,4 +1,4 @@
-import { Component,  Input } from '@angular/core';
+import { AfterViewInit, Component,  ElementRef,  Input } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -6,7 +6,7 @@ import { Component,  Input } from '@angular/core';
     <button class="btn" *ngIf="type !== 'anchor'" (click)="openLink(link, type)" >
     {{label}} 
     </button>
-    <a href="{{anchor}}" rel="{{rel}}" pageScroll [pageScrollOffset]="100"  *ngIf="anchor">
+    <a data-href="{{anchor}}" href="{{anchor}}" rel="{{rel}}" pageScroll [pageScrollOffset]="100"  *ngIf="type == 'anchor'">
         <button class="btn">
           {{label}} 
         </button>
@@ -43,14 +43,21 @@ import { Component,  Input } from '@angular/core';
       }`
     ],
 })
-export class ButtonComponent {
+export class ButtonComponent implements AfterViewInit {
   @Input() link: any;
   @Input() mail: any;
   @Input() type: any = 'link';
-  @Input() anchor: any;
+  @Input() anchor: string;
   @Input() label: any;
   @Input() rel: any = 'noopener';
-  constructor() { }
+  constructor(private elementRef: ElementRef) {
+   }
+   ngAfterViewInit(): void {
+    const anchor = this.elementRef.nativeElement.querySelector('a');
+    if(anchor && this.anchor){
+      anchor.setAttribute('href', this.anchor);
+    }
+  }
 
   openLink(link: string, type?: string) {
     switch(type){
