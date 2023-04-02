@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Output, EventEmitter, ElementRef } from '@angular/core';
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
 @Component({
@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
   templateUrl: './top-navigation.component.html',
   styleUrls: ['./top-navigation.component.scss']
 })
-export class TopNavigationComponent implements OnInit {
+export class TopNavigationComponent implements AfterViewInit {
   @Output() public sidenavToggle = new EventEmitter();
   baseroute: boolean;
   sizeLogo =  {width: '185px', height: '61px', scale: {d:'0.7',m: '0.6'} };
@@ -30,7 +30,7 @@ export class TopNavigationComponent implements OnInit {
     // { name: 'BLOG', link: './blog'}
   ];
 
-  constructor(location: Location, router: Router) {
+  constructor(location: Location, router: Router, private elementRef: ElementRef) {
     router.events.subscribe(val => {
       if (location.path() == "") {
         this.isHome = true;
@@ -45,7 +45,19 @@ export class TopNavigationComponent implements OnInit {
     return this.isHome === true ? '#home' : '/';
   }
   
-  ngOnInit(): void {
+
+  ngAfterViewInit(): void {
+    const anchors = this.elementRef.nativeElement.querySelectorAll('a');
+    anchors.forEach(element => {
+      const anchor = element.getAttribute('data-anchor');
+      if(anchor && anchor.indexOf('#') === 0){
+        element.setAttribute('href', anchor)
+        console.log(element.getAttribute('href'));
+      }
+    });
+    // if(anchor && anchor.getAttribute('data-anchor')){
+    //   anchor.setAttribute('href', this.anchor);
+    // }
   }
   
 
